@@ -15,6 +15,22 @@ La aplicación está publicada en [proyecto-m3-rho.vercel.app](https://proyecto-
 
 Las personalidades están definidas con prompts propios en el servidor. Buscan evocar rasgos generales de cada personaje, sin copiar diálogos ni escenas de las películas.
 
+## Capturas
+
+Estas capturas muestran la galería y el chat en distintos tamaños:
+
+### Galería en celular
+
+![Galería de personajes en celular](./screenshots/galeria-mobile.png)
+
+### Galería en escritorio
+
+![Galería de personajes en escritorio](./screenshots/galeria-desktop.png)
+
+### Chat en celular
+
+![Chat con Jack Sparrow en celular](./screenshots/chat-mobile.png)
+
 ## Tecnologías
 
 - HTML, CSS y JavaScript (ES modules)
