@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Conversá con Jack Sparrow en una aventura de chat."
+    />
+    <title>Charlas en alta mar | Jack Sparrow</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+    <script type="module" src="./src/app.js"></script>
+  </head>
+  <body>
+    <div class="chat-app">
+      <header class="chat-header">
+        <a class="brand" href="/home" data-link aria-label="Charlas en alta mar, inicio">
+          <span class="brand-mark" aria-hidden="true">✦</span>
+          <span>Charlas en alta mar</span>
+        </a>
+        <button class="theme-toggle" type="button" aria-label="Activar modo claro" title="Activar modo claro">
+          <span aria-hidden="true">☼</span>
+        </button>
+        <span class="header-caption">Una conversación fuera de lo común</span>
+        <nav class="site-nav" aria-label="Navegación principal">
+          <a href="/home" data-link>Inicio</a>
+          <a href="/characters" data-link>Personajes</a>
+          <a href="/chat" data-link>Chat</a>
+          <a href="/about" data-link>Acerca de</a>
+        </nav>
+      </header>
+
+      <main id="app-view" class="app-view" tabindex="-1"></main>
+
+      <footer class="page-footer">
+        <p>Un viaje de imaginación, conversación a conversación.</p>
+      </footer>
+    </div>
+  </body>
+</html>
