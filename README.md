@@ -39,9 +39,22 @@ Estas capturas muestran la galería y el chat en distintos tamaños:
 
 ## Uso de IA durante el proyecto
 
-Google Gemini se usa para generar las respuestas del chat. El frontend envía el historial completo y el identificador del personaje seleccionado a `/api/chat`; la función serverless valida esos datos, elige el system prompt correspondiente y conecta con Gemini usando `GEMINI_API_KEY` desde las variables de entorno.
+### IA usada por la aplicación
 
-La clave nunca se incluye en el JavaScript del cliente. Las respuestas se transforman y se muestran en la interfaz. Las conversaciones se guardan en `localStorage`, separadas por personaje, y pueden borrarse desde cada chat.
+Google Gemini se usa para generar las respuestas del chat. La aplicación utiliza el modelo `gemini-3.5-flash-lite`.
+
+El frontend envía el historial completo y el identificador del personaje seleccionado a la función serverless `/api/chat`. Desde el servidor se valida la petición, se elige el system prompt correspondiente y se consulta Gemini con `GEMINI_API_KEY`.
+
+La clave no se incluye en el JavaScript del cliente. Las respuestas recibidas se transforman y se muestran en la interfaz. Las conversaciones se guardan en `localStorage`, separadas por personaje, y pueden borrarse desde cada chat.
+
+### Registro de uso de IA en el desarrollo
+
+| Tipo de uso | Herramienta | Para qué se utilizó |
+| --- | --- | --- |
+| IA de la aplicación | Google Gemini | Generar respuestas conversacionales según el personaje seleccionado |
+| Apoyo al desarrollo | Copilot | Ayudar a revisar el código, diseñar mejoras de interfaz, organizar archivos y documentar la implementación |
+
+Las indicaciones del sistema se encuentran en `api/chat.js` y contienen la personalidad, el tono de respuesta y las limitaciones de los personajes. Se utilizaron prompts propios y originales; no se reproducen diálogos ni escenas exactas de las películas.
 
 ## Tecnologías
 
