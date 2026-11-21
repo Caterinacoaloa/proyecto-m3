@@ -4,6 +4,12 @@ Este proyecto lo hice como parte del trayecto de Soy Henry. La idea fue armar un
 
 La aplicación está publicada en [proyecto-m3-rho.vercel.app](https://proyecto-m3-rho.vercel.app).
 
+## Personaje elegido
+
+El personaje principal es **Jack Sparrow**: un capitán ingenioso, teatral e impredecible que habla con humor, metáforas marítimas y confianza en sus propios planes. Como extra de la aplicación, la galería también incluye a **Davy Jones**, asociado con las profundidades y las deudas del mar, y a **Tia Dalma**, presentada como una consejera enigmática y sabia.
+
+Los personajes no reproducen diálogos ni escenas de las películas. El sistema prompt define rasgos generales, respuestas cortas de una o dos frases y un tono propio para cada personalidad.
+
 ## ¿Qué se puede hacer?
 
 - Navegar entre Inicio, Personajes, Chat y Acerca de sin recargar la página.
@@ -30,6 +36,12 @@ Estas capturas muestran la galería y el chat en distintos tamaños:
 ### Chat en celular
 
 ![Chat con Jack Sparrow en celular](./screenshots/chat-mobile.png)
+
+## Uso de IA durante el proyecto
+
+Google Gemini se usa para generar las respuestas del chat. El frontend envía el historial completo y el identificador del personaje seleccionado a `/api/chat`; la función serverless valida esos datos, elige el system prompt correspondiente y conecta con Gemini usando `GEMINI_API_KEY` desde las variables de entorno.
+
+La clave nunca se incluye en el JavaScript del cliente. Las respuestas se transforman y se muestran en la interfaz. Las conversaciones se guardan en `localStorage`, separadas por personaje, y pueden borrarse desde cada chat.
 
 ## Tecnologías
 
@@ -96,10 +108,17 @@ npm run build
 ## Cómo está organizado
 
 ```text
-api/       Función serverless que valida los mensajes y consulta Gemini
-src/       Aplicación SPA, utilidades y estilos
-tests/     Tests unitarios de la API y las utilidades
-index.html Punto de entrada de Vite
+api/                 Función serverless que consulta Gemini
+src/
+  app.js             Routing y lógica principal de la SPA
+  chat.js            Personajes y lógica específica del chat
+  utils.js           Validación, transformación y persistencia
+  styles.css         Diseño responsive y temas
+tests/
+  app.test.js        Tests de la configuración del chat
+  chat.test.js       Tests de la función serverless
+  utils.test.js      Tests de transformación y persistencia
+index.html           Punto de entrada de Vite
 ```
 
 La clave de Gemini se usa únicamente en la función serverless y se configura como variable de entorno. No debe escribirse en el código del cliente.

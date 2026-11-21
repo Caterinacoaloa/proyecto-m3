@@ -3,43 +3,15 @@ import {
   loadSavedConversation,
   saveConversation,
 } from "./utils.js";
+import {
+  buildChatRequest,
+  characters,
+  createGreeting,
+  formatMessageTime,
+  getCharacter,
+} from "./chat.js";
 
 const appView = document.querySelector("#app-view");
-
-const characters = {
-  jack: {
-    id: "jack",
-    name: "Jack Sparrow",
-    avatar: "🏴‍☠️",
-    tagline: "Capitán ingenioso e impredecible",
-    description: "Astucia, humor y planes que rara vez salen como se espera.",
-    greeting: "¡Ah, llegaste justo a tiempo! Decime, ¿qué aventura te trae por estas aguas?",
-  },
-  "davy-jones": {
-    id: "davy-jones",
-    name: "Davy Jones",
-    avatar: "⚓",
-    tagline: "Señor de las profundidades",
-    description: "Una presencia sombría, solemne y ligada a los misterios del océano.",
-    greeting: "El mar guarda muchas deudas, marinero. ¿Qué asunto te trae a mis dominios?",
-  },
-  "tia-dalma": {
-    id: "tia-dalma",
-    name: "Tia Dalma",
-    avatar: "🔮",
-    tagline: "Guardiana de antiguos misterios",
-    description: "Sabiduría enigmática, intuición y relatos de magia caribeña.",
-    greeting: "Las aguas ya susurraban que vendrías. Cuéntame, ¿qué buscas en esta marea?",
-  },
-};
-
-function createGreeting(characterId) {
-  return {
-    role: "character",
-    text: characters[characterId].greeting,
-    sentAt: Date.now(),
-  };
-}
 
 let hasSavedHistory = false;
 let historyError = "";
@@ -147,7 +119,7 @@ function renderRoute() {
 
   if (path === "/chat") {
     const requestedId = new URLSearchParams(window.location.search).get("character");
-    const character = characters[requestedId] ?? characters.jack;
+    const character = getCharacter(requestedId);
     if (activeCharacterId !== character.id) {
       activeCharacterId = character.id;
       messages = loadConversation(character.id);
@@ -251,12 +223,9 @@ function renderMessages() {
     }
 
     const time = document.createElement("time");
-    const messageTime = new Date(sentAt ?? Date.now());
-    time.dateTime = messageTime.toISOString();
-    time.textContent = new Intl.DateTimeFormat("es-AR", {
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(messageTime);
+    const formattedTime = formatMessageTime(sentAt);
+    time.dateTime = formattedTime.dateTime;
+    time.textContent = formattedTime.label;
     article.append(time);
     messageList.append(article);
   });
@@ -438,7 +407,7 @@ document.addEventListener("submit", async (event) => {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ characterId, messages: conversation }),
+        body: JSON.stringify(buildChatRequest(characterId, conversation)),
       });
       const responseText = await response.text();
       let data = {};
