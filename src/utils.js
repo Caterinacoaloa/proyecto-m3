@@ -1,6 +1,15 @@
 const MAX_MESSAGES = 30;
 const MAX_MESSAGE_LENGTH = 2000;
 export const CHAT_HISTORY_KEY = "charlas-alta-mar-history";
+export const THEME_STORAGE_KEY = "charlas-alta-mar-theme";
+
+export function loadSavedTheme(storage) {
+  return storage.getItem(THEME_STORAGE_KEY) === "light";
+}
+
+export function saveSavedTheme(storage, isLightTheme) {
+  storage.setItem(THEME_STORAGE_KEY, isLightTheme ? "light" : "dark");
+}
 
 function getHistoryKey(characterId) {
   return characterId === "jack" ? CHAT_HISTORY_KEY : `${CHAT_HISTORY_KEY}-${characterId}`;

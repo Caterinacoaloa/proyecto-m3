@@ -2,6 +2,8 @@ import {
   clearSavedConversation,
   loadSavedConversation,
   saveConversation,
+  loadSavedTheme,
+  saveSavedTheme,
 } from "./utils.js";
 import {
   buildChatRequest,
@@ -38,6 +40,14 @@ let isSendingMessage = false;
 let sendingCharacterId = null;
 let chatError = "";
 let isLightTheme = false;
+try {
+  isLightTheme = loadSavedTheme(window.localStorage);
+} catch (error) {
+  console.warn(
+    "No se pudo cargar el tema guardado:",
+    error instanceof Error ? error.message : error,
+  );
+}
 
 const routes = {
   "/home": {
@@ -307,6 +317,14 @@ document.addEventListener("click", async (event) => {
   if (themeToggle) {
     isLightTheme = !isLightTheme;
     updateThemeToggle();
+    try {
+      saveSavedTheme(window.localStorage, isLightTheme);
+    } catch (error) {
+      console.warn(
+        "No se pudo guardar el tema:",
+        error instanceof Error ? error.message : error,
+      );
+    }
     return;
   }
 

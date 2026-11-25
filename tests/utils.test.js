@@ -1,11 +1,14 @@
 import { describe, expect, it } from "vitest";
 import {
   CHAT_HISTORY_KEY,
+  THEME_STORAGE_KEY,
   clearSavedConversation,
   loadSavedConversation,
+  loadSavedTheme,
   mapMessagesToGeminiContents,
   parseGeminiReply,
   saveConversation,
+  saveSavedTheme,
 } from "../src/utils.js";
 
 describe("mapMessagesToGeminiContents", () => {
@@ -43,6 +46,29 @@ describe("parseGeminiReply", () => {
     expect(() => parseGeminiReply({ candidates: [] })).toThrow(
       "Gemini no devolvió texto.",
     );
+  });
+});
+
+describe("theme persistence", () => {
+  function createStorage() {
+    const values = new Map();
+    return {
+      getItem: (key) => values.get(key) ?? null,
+      setItem: (key, value) => values.set(key, value),
+    };
+  }
+
+  it("uses dark theme by default", () => {
+    expect(loadSavedTheme(createStorage())).toBe(false);
+  });
+
+  it("saves and loads the light theme", () => {
+    const storage = createStorage();
+
+    saveSavedTheme(storage, true);
+
+    expect(storage.getItem(THEME_STORAGE_KEY)).toBe("light");
+    expect(loadSavedTheme(storage)).toBe(true);
   });
 });
 
